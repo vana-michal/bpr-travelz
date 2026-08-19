@@ -17,7 +17,20 @@
   --track: 0.32em;            /* utility tracking, spec ≈0.2–0.5em */
   --ease: cubic-bezier(.22,.61,.36,1);
 }
+.tick {
+    stroke: #ffffff; /* Adjust color to fit your site */
+    stroke-width: 3;
+    stroke-linecap: round;
+    opacity: 0;
+    animation: cascadeFade 2s infinite ease-out;
+  }
 
+  @keyframes cascadeFade {
+    0% { opacity: 0; transform: translateY(-2px); }
+    15% { opacity: 1; transform: translateY(0); }
+    60% { opacity: 0; transform: translateY(2px); }
+    100% { opacity: 0; transform: translateY(0); }
+  }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: auto; }
 body {

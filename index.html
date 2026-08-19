@@ -47,7 +47,7 @@ window.TZ_ASSET_BASE = "assets/";</script>
     <div class="script">A private world.</div>
   </div>
 </div>
-
+<div id="scroll-right-container" style="width: 60px; height: 100px;"></div>
 <!-- ============ AFTER THE FILM ============ -->
 <main class="after-film">
 
@@ -153,5 +153,37 @@ window.TZ_ASSET_BASE = "assets/";</script>
 </main>
 
 <script src="app.js"></script>
+<script>const container = document.getElementById('scroll-right-container');
+  
+  const numLines = 15;
+  const radiusInner = 28;
+  const radiusOuter = 42;
+  const cx = 10; // Shifted left so the circle pushes out to the right
+  const cy = 50; // Centered vertically
+
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 60 100");
+  svg.setAttribute("width", "100%");
+  svg.setAttribute("height", "100%");
+
+  for (let i = 0; i < numLines; i++) {
+    // Angle from -90 deg (top) to +90 deg (bottom) to form a right-facing half-circle
+    const angle = -Math.PI / 2 + (Math.PI * i) / (numLines - 1);
+
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", cx + radiusInner * Math.cos(angle));
+    line.setAttribute("y1", cy + radiusInner * Math.sin(angle));
+    line.setAttribute("x2", cx + radiusOuter * Math.cos(angle));
+    line.setAttribute("y2", cy + radiusOuter * Math.sin(angle));
+    line.setAttribute("class", "tick");
+
+    // Linearly increase delay from top (i=0) to bottom (i=14) for a downward load
+    const delay = (i / numLines) * 1.2; 
+    line.style.animationDelay = `${delay}s`;
+
+    svg.appendChild(line);
+  }
+
+  container.appendChild(svg);</script>
 </body>
 </html>
