@@ -413,6 +413,29 @@ form.sent + .received { display: block; }
   .slot .info { flex-basis: 100%; order: 3; }
 }
 
+/* ---------- scroll cue: half-circle of short lines over scrubbed film ---------- */
+.scroll-cue {
+  position: fixed; left: 50%; bottom: clamp(1.4rem, 4vh, 2.8rem);
+  transform: translateX(-50%);
+  width: clamp(116px, 17vw, 186px);
+  z-index: 25; pointer-events: none;
+  transition: opacity .6s var(--ease);
+}
+.scroll-cue svg { width: 100%; height: auto; display: block; overflow: visible; }
+.scroll-cue line {
+  stroke: var(--white); stroke-width: 1.5; stroke-linecap: round;
+  animation: cue-breathe 3.2s ease-in-out infinite;
+}
+@keyframes cue-breathe {
+  0%, 100% { stroke-opacity: 0.30; }
+  50%      { stroke-opacity: 0.95; }
+}
+.scroll-cue.hidden { opacity: 0; }
+body.over-light .scroll-cue { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue line { animation: none; stroke-opacity: 0.7; }
+}
+
 /* back link (bali) */
 .back {
   position: fixed; bottom: 1.6rem; left: clamp(1.2rem, 4vw, 3rem); z-index: 60;

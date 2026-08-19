@@ -135,12 +135,16 @@
 
     // chrome stays light over the film, flips dark once the light section arrives
     var after = document.querySelector(".after-film");
+    var cue = buildScrollCue(document.getElementById("walk-track"));
+    cue.el.classList.add("hidden");            // hidden during the lock ritual
     makeScrub(walk, document.getElementById("walk-track"),
       [{ el: document.getElementById("beat-world"), center: 0.55, spread: 0.28 }],
       function (p) {
         var overLight = after && after.getBoundingClientRect().top < 70;
         chrome.classList.toggle("on-media", !overLight && p < 0.9);
         document.body.classList.toggle("over-light", overLight);
+        cue.el.classList.toggle("hidden", !entered);
+        cue.update(p);
       });
   }
 
@@ -177,7 +181,9 @@
     // v0.6.2: center chapter overlays removed — chapters live on the
     // right-edge timeline only. Beats array is empty; the cut boundaries
     // below still drive the timeline's active state.
+    var cueB = buildScrollCue(document.getElementById("bali-track"));
     makeScrub(bali, document.getElementById("bali-track"), [], function (p) {
+      cueB.update(p);
       if (tlFill) tlFill.style.height = (p * 100) + "%";
       var idx = p < B1 ? 0 : (p < B2 ? 1 : 2);
       tlItems.forEach(function (btn, i) {
@@ -283,6 +289,46 @@
       current = new Date(+parts[0], +parts[1] - 1, +parts[2]);
       renderSlots(current);
     });
+  }
+
+  /* ---------- scroll cue: half-circle of short lines, eroding as you scroll ---------- */
+  function buildScrollCue(trackEl) {
+    var NS = "http://www.w3.org/2000/svg";
+    var N = 21, R = 68, LEN = 10, CX = 100, CY = 12;
+    var wrap = document.createElement("div");
+    wrap.className = "scroll-cue";
+    wrap.setAttribute("aria-hidden", "true");
+    var svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("viewBox", "0 0 200 100");
+    var ticks = [], mid = (N - 1) / 2;
+    for (var i = 0; i < N; i++) {
+      var a = (10 + 160 * i / (N - 1)) * Math.PI / 180;   // 10°→170°, arc opening downward
+      var ln = document.createElementNS(NS, "line");
+      ln.setAttribute("x1", (CX + R * Math.cos(a)).toFixed(2));
+      ln.setAttribute("y1", (CY + R * Math.sin(a)).toFixed(2));
+      ln.setAttribute("x2", (CX + (R + LEN) * Math.cos(a)).toFixed(2));
+      ln.setAttribute("y2", (CY + (R + LEN) * Math.sin(a)).toFixed(2));
+      ln.style.animationDelay = (Math.abs(i - mid) * 110) + "ms";
+      svg.appendChild(ln);
+      var d = Math.abs(i - mid) / mid;                     // 0 centre → 1 ends
+      // erosion measured in scrolled PIXELS so it reads the same on a
+      // 3-viewport film and a 10-viewport one: ends go at ~200px,
+      // centre at ~580px, each over a 140px fade.
+      ticks.push({ el: ln, px: 200 + (1 - d) * 380 });
+    }
+    wrap.appendChild(svg);
+    document.body.appendChild(wrap);
+    return {
+      el: wrap,
+      update: function (p) {
+        var total = trackEl ? trackEl.offsetHeight - innerHeight : 1000;
+        var scrolled = p * total;
+        for (var i = 0; i < ticks.length; i++) {
+          var o = (ticks[i].px - scrolled) / 140;
+          ticks[i].el.style.opacity = o < 0 ? 0 : (o > 1 ? 1 : o);
+        }
+      }
+    };
   }
 
   /* ---------- form (mock submit) ---------- */
