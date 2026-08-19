@@ -250,7 +250,7 @@
         var row = document.createElement("div");
         row.className = "slot";
         row.innerHTML = '<span class="time">' + t + '</span>' +
-          '<span class="info utility">Private video call · 30 min · ' + HOSTS[(i + rot) % HOSTS.length] + '</span>';
+          '<span class="info utility">Private video call · 20 min · ' + HOSTS[(i + rot) % HOSTS.length] + '</span>';
         var btn = document.createElement("button");
         btn.className = "add"; btn.textContent = "Add to calendar";
         btn.addEventListener("click", function () {
