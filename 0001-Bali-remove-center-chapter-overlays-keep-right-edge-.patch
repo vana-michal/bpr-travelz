@@ -1,0 +1,91 @@
+From 5c7b901db2a032f96d84f6b6cbaf1a244747fbb9 Mon Sep 17 00:00:00 2001
+From: "Claude (prototype build)" <prototype@travelz.local>
+Date: Wed, 19 Aug 2026 15:33:08 +0000
+Subject: [PATCH] Bali: remove center chapter overlays, keep right-edge
+ timeline only (v0.6.2)
+
+- bali.html: drop the three .beat chapter blocks from #bali-track
+- app.js: pass empty beats array; cut boundaries still drive the
+  timeline active state and click-to-jump
+- design description: Bali chapter section updated to timeline-only
+---
+ app.js                             |  9 ++++-----
+ bali.html                          | 28 +++-------------------------
+ travelz-design-description-v0-6.md |  2 +-
+ 3 files changed, 8 insertions(+), 31 deletions(-)
+
+diff --git a/app.js b/app.js
+index fa59a7d..fc55d06 100644
+--- a/app.js
++++ b/app.js
+@@ -174,11 +174,10 @@
+       });
+     });
+ 
+-    makeScrub(bali, document.getElementById("bali-track"), [
+-      { el: document.getElementById("ch-1"), center: c(0, CUT1),    spread: s(0, CUT1) },
+-      { el: document.getElementById("ch-2"), center: c(CUT1, CUT2), spread: s(CUT1, CUT2) },
+-      { el: document.getElementById("ch-3"), center: c(CUT2, D),    spread: s(CUT2, D) }
+-    ], function (p) {
++    // v0.6.2: center chapter overlays removed — chapters live on the
++    // right-edge timeline only. Beats array is empty; the cut boundaries
++    // below still drive the timeline's active state.
++    makeScrub(bali, document.getElementById("bali-track"), [], function (p) {
+       if (tlFill) tlFill.style.height = (p * 100) + "%";
+       var idx = p < B1 ? 0 : (p < B2 ? 1 : 2);
+       tlItems.forEach(function (btn, i) {
+diff --git a/bali.html b/bali.html
+index 594e4db..aefe808 100644
+--- a/bali.html
++++ b/bali.html
+@@ -27,31 +27,9 @@ window.TZ_ASSET_BASE = "assets/";</script>
+          data-poster="poster_bali.jpg" aria-hidden="true"></video>
+ </div>
+ 
+-<!-- full-length scrub: 22.2 s → 10 viewports of scroll -->
+-<div id="bali-track" class="scrub-track" style="height: 1100vh;">
+-
+-  <div class="beat" id="ch-1">
+-    <div class="scrim">
+-      <p class="chapter-label utility">Accommodation</p>
+-      <p>A villa featuring tropical architecture and an infinity pool.</p>
+-    </div>
+-  </div>
+-
+-  <div class="beat" id="ch-2">
+-    <div class="scrim">
+-      <p class="chapter-label utility">Activities</p>
+-      <p>Daily surfing lessons with professionals, access to a state-of-the-art gym, parties.</p>
+-    </div>
+-  </div>
+-
+-  <div class="beat" id="ch-3">
+-    <div class="scrim">
+-      <p class="chapter-label utility">Mindset</p>
+-      <p>Meditation and evening community BBQs and networking by the pool, Savaya parties.</p>
+-    </div>
+-  </div>
+-
+-</div>
++<!-- full-length scrub: 22.2 s → 10 viewports of scroll.
++     Chapters are communicated by the right-edge timeline only (v0.6.2). -->
++<div id="bali-track" class="scrub-track" style="height: 1100vh;"></div>
+ 
+ <!-- light chapter timeline, right edge -->
+ <aside class="timeline" aria-label="Film chapters">
+diff --git a/travelz-design-description-v0-6.md b/travelz-design-description-v0-6.md
+index 0378981..1a05e0f 100644
+--- a/travelz-design-description-v0-6.md
++++ b/travelz-design-description-v0-6.md
+@@ -63,7 +63,7 @@ The v0.5 template (cinematic intro → four moments 01 DEPARTURE → 04 THE LIFE
+ 
+ ### Bali — the built reference implementation
+ 
+-Film TRAVEL_Z_VIDEO_BALI.mp4, 22.1667 s, scrubbed across **10 viewports (full length — DECIDED)**. Chapters on measured cuts (scene detection; valid only for this exact edit — re-measure after any re-cut):
++Film TRAVEL_Z_VIDEO_BALI.mp4, 22.1667 s, scrubbed across **10 viewports (full length — DECIDED)**. **v0.6.2: the center chapter overlays are removed — chapters are communicated solely by the right-edge light timeline** (labels ACCOMMODATION / ACTIVITIES / MINDSET, orange progress fill, click-to-jump). The measured cuts below still drive the timeline's active state (scene detection; valid only for this exact edit — re-measure after any re-cut):
+ 
+ | # | Chapter | Film time | Progress | Center | Spread |
+ |---|---------|-----------|----------|--------|--------|
+-- 
+2.43.0
+
