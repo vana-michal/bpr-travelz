@@ -174,11 +174,10 @@
       });
     });
 
-    makeScrub(bali, document.getElementById("bali-track"), [
-      { el: document.getElementById("ch-1"), center: c(0, CUT1),    spread: s(0, CUT1) },
-      { el: document.getElementById("ch-2"), center: c(CUT1, CUT2), spread: s(CUT1, CUT2) },
-      { el: document.getElementById("ch-3"), center: c(CUT2, D),    spread: s(CUT2, D) }
-    ], function (p) {
+    // v0.6.2: center chapter overlays removed — chapters live on the
+    // right-edge timeline only. Beats array is empty; the cut boundaries
+    // below still drive the timeline's active state.
+    makeScrub(bali, document.getElementById("bali-track"), [], function (p) {
       if (tlFill) tlFill.style.height = (p * 100) + "%";
       var idx = p < B1 ? 0 : (p < B2 ? 1 : 2);
       tlItems.forEach(function (btn, i) {

@@ -63,7 +63,7 @@ The v0.5 template (cinematic intro → four moments 01 DEPARTURE → 04 THE LIFE
 
 ### Bali — the built reference implementation
 
-Film TRAVEL_Z_VIDEO_BALI.mp4, 22.1667 s, scrubbed across **10 viewports (full length — DECIDED)**. Chapters on measured cuts (scene detection; valid only for this exact edit — re-measure after any re-cut):
+Film TRAVEL_Z_VIDEO_BALI.mp4, 22.1667 s, scrubbed across **10 viewports (full length — DECIDED)**. **v0.6.2: the center chapter overlays are removed — chapters are communicated solely by the right-edge light timeline** (labels ACCOMMODATION / ACTIVITIES / MINDSET, orange progress fill, click-to-jump). The measured cuts below still drive the timeline's active state (scene detection; valid only for this exact edit — re-measure after any re-cut):
 
 | # | Chapter | Film time | Progress | Center | Spread |
 |---|---------|-----------|----------|--------|--------|
