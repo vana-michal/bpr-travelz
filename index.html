@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TRAVEL Z — A Private Travel Universe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Pinyon+Script&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+<script>/* ONE-LINE ASSET CONFIG — for Claude Design / live hosting,
+   point this at your public URL, e.g. "https://cdn.yourhost.com/travelz/assets/" */
+window.TZ_ASSET_BASE = "assets/";</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="locked">
+
+<nav class="chrome on-media" aria-label="Main">
+  <a class="utility" href="#experiences">Experiences</a>
+  <a class="wordmark" href="index.html" aria-label="Travel Z home">TRAVEL<span class="z">Z</span></a>
+  <a class="utility" href="#contact">Contact</a>
+</nav>
+<div class="progress-line" aria-hidden="true"></div>
+
+<!-- ============ THE LOCK / THE FILM ============ -->
+<div id="stage" class="stage" role="button" tabindex="0"
+     aria-label="Tap anywhere, press any key, or use the button to begin">
+  <video id="vid-loop" data-asset="loop.mp4" muted loop playsinline preload="auto"
+         data-poster="poster_door.jpg" aria-hidden="true"></video>
+  <video id="vid-walk" data-asset="walkthrough.mp4" muted playsinline preload="auto"
+         aria-hidden="true"></video>
+
+  <div class="hero">
+    <p class="eyebrow utility">A Private Travel Universe</p>
+    <div class="lockup" aria-label="Your next life experience">
+      <div class="display">Your Next<br>Experience</div>
+      <span class="script" aria-hidden="true">Life</span>
+    </div>
+    <p class="tagline utility">Private journeys, hidden access and effortless escapes for the ones who do not wait in line.</p>
+    <button id="enter-pill" class="pill">Start your journey</button>
+    <p class="hint utility">Tap anywhere — or press any key — to begin</p>
+  </div>
+</div>
+
+<!-- scrubbed walkthrough: 3 viewports of scroll for the 6.6 s film -->
+<div id="walk-track" class="scrub-track" style="height: 400vh;" aria-hidden="true">
+  <div class="beat tr" id="beat-world">
+    <div class="display">Not a trip.</div>
+    <div class="script">A private world.</div>
+  </div>
+</div>
+
+<!-- ============ AFTER THE FILM ============ -->
+<main class="after-film">
+
+  <section class="section" id="experiences">
+    <header class="section-head reveal">
+      <h2 class="display">Three journeys</h2>
+      <span class="script" aria-hidden="true">Choose yours.</span>
+    </header>
+
+    <div class="trip soon reveal" aria-disabled="true">
+      <span class="num" aria-hidden="true">01</span>
+      <div>
+        <div class="name">F1 Paddock Energy</div>
+        <span class="meta utility">Race weekend · the rooms behind the grid</span>
+      </div>
+      <div class="media"><img class="kenburns" data-asset="cameo_f1.jpg" alt="Night speed light streaks — placeholder visual"></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <span class="tag utility">Coming soon</span>
+    </div>
+
+    <a class="trip active reveal" href="bali.html">
+      <span class="num" aria-hidden="true">02</span>
+      <div>
+        <div class="name">Bali Creator &amp; Wellness Hub</div>
+        <span class="meta utility">Movement · deep work · community</span>
+      </div>
+      <div class="media">
+        <video data-asset="bali_card.mp4" muted loop playsinline autoplay
+               data-poster="poster_bali.jpg" aria-hidden="true"></video>
+      </div>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+
+    <div class="trip soon reveal" aria-disabled="true">
+      <span class="num" aria-hidden="true">03</span>
+      <div>
+        <div class="name">Lapland Porsche Ice Experience</div>
+        <span class="meta utility">Frozen lakes · guided performance driving</span>
+      </div>
+      <div class="media"><img class="kenburns" data-asset="cameo_lapland.jpg" alt="Frozen lake under faint aurora — placeholder visual"></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <span class="tag utility">Coming soon</span>
+    </div>
+  </section>
+
+  <section class="section closing" id="contact">
+    <div class="lockup reveal" style="display:inline-block; position:relative;">
+      <div class="display">Begin with</div>
+      <span class="script" style="position:absolute; left:55%; top:70%; transform:rotate(-4deg); white-space:nowrap;">a conversation.</span>
+    </div>
+    <p class="sub reveal">One message. Everything arranged.</p>
+
+    <div class="form-wrap" style="margin-top: 3.5rem;">
+      <div class="switch reveal" role="tablist" aria-label="How to begin">
+        <button class="switch-btn active" id="tab-meeting" role="tab" aria-selected="true" aria-controls="panel-meeting">Meeting</button>
+        <button class="switch-btn" id="tab-contact" role="tab" aria-selected="false" aria-controls="panel-contact">Contact form</button>
+      </div>
+
+      <div id="panel-meeting" role="tabpanel" aria-labelledby="tab-meeting">
+        <div class="meet-head reveal">
+          <span class="meet-date utility" id="meet-date-label">—</span>
+          <button class="cal-btn" id="cal-btn" aria-label="Choose a different date">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="16" rx="2"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+              <line x1="8" y1="3" x2="8" y2="7"/>
+              <line x1="16" y1="3" x2="16" y2="7"/>
+            </svg>
+          </button>
+          <input type="date" id="meet-date" aria-label="Meeting date">
+        </div>
+        <div id="slot-list"></div>
+        <p class="demo-note utility reveal">Demo — no real booking is made. Calendar files are samples.</p>
+      </div>
+
+      <div id="panel-contact" role="tabpanel" aria-labelledby="tab-contact" hidden>
+        <form id="proposal-form" novalidate>
+          <div class="field reveal">
+            <label class="utility" for="f-name">Name</label>
+            <input id="f-name" name="name" type="text" required autocomplete="name">
+            <p class="err">Please tell us your name.</p>
+          </div>
+          <div class="field reveal">
+            <label class="utility" for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" required autocomplete="email">
+            <p class="err">A valid email is needed to reply.</p>
+          </div>
+          <div class="field reveal">
+            <label class="utility" for="f-phone">Phone / WhatsApp</label>
+            <input id="f-phone" name="phone" type="tel" required autocomplete="tel">
+            <p class="err">A phone number is needed to reach you.</p>
+          </div>
+          <div class="form-actions reveal">
+            <button class="pill" type="submit" style="background:var(--off-black); color:#fff;">Request private proposal</button>
+          </div>
+        </form>
+
+        <div class="received">
+          <span class="script">Received.</span>
+          <p>We reply within 24 hours. One message — everything arranged.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>TRAVEL Z · a private line of BPR Travel</span>
+    <span>F1® and Porsche® are third-party marks — usage pending clearance</span>
+    <a class="utility" href="mailto:concierge@travelz.example">concierge@travelz.example</a>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

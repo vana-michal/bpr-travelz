@@ -1,0 +1,413 @@
+/* ============================================================
+   TRAVEL Z — prototype stylesheet
+   Identity per TravelZ Logo Manual v1.0 + design description v0.5
+   (light identity variant, confirmed in build call)
+   Font substitutes (prototype only — see README):
+     Archivo Black  ≈ Gill Sans Ultra Bold (display)
+     Pinyon Script  ≈ Kunstler Script (script accent)
+     Source Sans 3  = utility voice (as specified)
+   ============================================================ */
+
+:root {
+  --orange: #F49A1A;          /* TravelZ Orange — locked from logo manual */
+  --black: #030304;           /* TravelZ Black */
+  --off-black: #1E1E1D;       /* Off-Black ground */
+  --paper: #F2F1EF;           /* light ground matched to walkthrough end frame */
+  --white: #FFFFFF;
+  --track: 0.32em;            /* utility tracking, spec ≈0.2–0.5em */
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: auto; }
+body {
+  background: var(--paper);
+  color: var(--off-black);
+  font-family: "Source Sans 3", "DejaVu Sans", sans-serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+body.locked { overflow: hidden; height: 100vh; }
+
+/* ---------- type voices ---------- */
+.display {
+  font-family: "Archivo Black", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 0.92;
+}
+.script {
+  font-family: "Pinyon Script", cursive;
+  color: var(--orange);
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1;
+}
+.utility {
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: var(--track);
+  font-size: 0.72rem;
+}
+
+/* ---------- chrome ---------- */
+.chrome {
+  position: fixed; inset: 0 0 auto 0; z-index: 60;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.6rem clamp(1.2rem, 4vw, 3rem);
+  pointer-events: none;
+  transition: color .5s var(--ease);
+  color: var(--off-black);
+}
+.chrome.on-media { color: var(--white); }
+.chrome a { color: inherit; text-decoration: none; pointer-events: auto; }
+.chrome .utility { font-weight: 400; }
+.wordmark {
+  font-family: "Source Sans 3", sans-serif; font-weight: 600;
+  letter-spacing: 0.45em; text-transform: uppercase; font-size: 0.8rem;
+}
+.wordmark .z {
+  font-family: "Pinyon Script", cursive; color: var(--orange);
+  font-size: 1.35em; letter-spacing: 0; text-transform: none;
+  margin-left: 0.05em; vertical-align: -0.08em;
+}
+
+/* right-edge scroll progress line, per spec */
+.progress-line {
+  position: fixed; top: 0; right: 0; width: 1px; height: 0;
+  background: #fff; mix-blend-mode: difference; z-index: 70;
+  pointer-events: none;
+}
+
+/* ---------- intro stage (index) ---------- */
+.stage {
+  position: fixed; inset: 0; z-index: 10; overflow: hidden;
+  background: #0d0b09;
+}
+.stage video, .stage img.poster {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover;
+}
+#vid-loop { opacity: 1; transition: opacity .38s var(--ease); }
+#vid-walk { opacity: 0; transition: opacity .38s var(--ease); }
+.stage.entered #vid-loop { opacity: 0; }
+.stage.entered #vid-walk { opacity: 1; }
+
+/* soft grade so the layered lockup reads on light oak */
+.stage::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 50% 42%, rgba(10,9,8,0.10) 0%, rgba(10,9,8,0.42) 100%),
+    linear-gradient(to bottom, rgba(10,9,8,0.35) 0%, rgba(10,9,8,0) 26%, rgba(10,9,8,0) 70%, rgba(10,9,8,0.32) 100%);
+  opacity: 1; transition: opacity .8s var(--ease);
+}
+.stage.entered::after { opacity: 0.35; }
+
+/* ---------- hero lockup ---------- */
+.hero {
+  position: absolute; inset: 0; z-index: 5;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; color: var(--white); padding: 0 1rem;
+  transition: opacity .6s var(--ease), transform .6s var(--ease);
+}
+.stage.entered .hero { opacity: 0; transform: translateY(-26px); pointer-events: none; }
+.hero .eyebrow { margin-bottom: 2.2rem; opacity: 0.9; }
+.lockup { position: relative; }
+.lockup .display { font-size: clamp(3rem, 11vw, 9.5rem); }
+.lockup .script {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -54%) rotate(-4deg);
+  font-size: clamp(3.4rem, 12vw, 11rem);
+  text-shadow: 0 1px 24px rgba(10,9,8,0.35);
+  pointer-events: none;
+}
+.hero .tagline {
+  margin-top: 2.4rem; max-width: 46rem; opacity: 0.92; font-size: 0.7rem;
+}
+.pill {
+  margin-top: 2.6rem;
+  display: inline-block; border: 0; cursor: pointer;
+  text-decoration: none;
+  background: rgba(255,255,255,0.16);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-radius: 999px; padding: 1.05rem 2.6rem;
+  color: var(--white);
+  font-family: "Source Sans 3", sans-serif; font-weight: 400;
+  letter-spacing: var(--track); text-transform: uppercase; font-size: 0.72rem;
+  transition: background .35s var(--ease);
+}
+.pill:hover, .pill:focus-visible { background: rgba(255,255,255,0.30); }
+.pill:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+.hint {
+  position: absolute; bottom: 2.4rem; left: 0; right: 0; text-align: center;
+  color: rgba(255,255,255,0.75); animation: pulse 2.6s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100% { opacity: .45 } 50% { opacity: 1 } }
+@media (prefers-reduced-motion: reduce) { .hint { animation: none; } }
+
+/* ---------- scrub scroll track ---------- */
+/* NOTE: the track must NOT create a stacking context (no z-index) —
+   the fixed .beat children (z-index 20) need to stack at root level,
+   above the video stage (z 5–10) and below .after-film (z 30). */
+.scrub-track { position: relative; }
+.scrub-spacer { height: 100vh; }
+
+/* beats that fade inside the scrub */
+.beat {
+  position: fixed; inset: 0; z-index: 20;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; pointer-events: none; opacity: 0; color: var(--white);
+  padding: 0 1.2rem;
+}
+.beat .display { font-size: clamp(2.2rem, 7.5vw, 6rem); text-shadow: 0 2px 30px rgba(10,9,8,0.45); }
+.beat .script  { font-size: clamp(2.6rem, 8.5vw, 7rem); margin-top: -0.35em; text-shadow: 0 1px 20px rgba(10,9,8,0.5); }
+.beat p { margin-top: 1.6rem; max-width: 34rem; font-size: 1.02rem; font-weight: 300;
+          text-shadow: 0 1px 14px rgba(10,9,8,0.6); }
+.beat .chapter-label {
+  margin-bottom: 0; color: var(--orange); font-weight: 400;
+  font-size: clamp(0.9rem, 2.2vw, 1.35rem); letter-spacing: 0.5em;
+}
+
+/* ---------- chapter timeline (right edge, light) ---------- */
+.timeline {
+  position: fixed; right: clamp(1.2rem, 3vw, 2.4rem); top: 50%;
+  transform: translateY(-50%); height: 46vh; z-index: 40;
+  transition: opacity .5s var(--ease);
+}
+.tl-track {
+  position: absolute; right: 3px; top: 0; bottom: 0; width: 1px;
+  background: rgba(255,255,255,0.3);
+}
+.tl-fill {
+  position: absolute; top: 0; left: 0; width: 100%; height: 0;
+  background: var(--orange);
+}
+.tl-item {
+  position: absolute; right: 0; transform: translateY(-50%);
+  display: flex; align-items: center; gap: 0.7rem;
+  background: none; border: 0; cursor: pointer; white-space: nowrap;
+  font-family: "Source Sans 3", sans-serif; font-weight: 300;
+  text-transform: uppercase; letter-spacing: 0.3em; font-size: 0.6rem;
+  color: rgba(255,255,255,0.55);
+  text-shadow: 0 1px 8px rgba(10,9,8,0.5);
+  transition: color .4s var(--ease);
+  padding: 0.4rem 0;
+}
+.tl-item .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  border: 1px solid currentColor; background: transparent;
+  transition: background .4s var(--ease), border-color .4s var(--ease);
+}
+.tl-item.active { color: var(--white); }
+.tl-item.active .dot { background: var(--orange); border-color: var(--orange); }
+.tl-item:focus-visible { outline: 1px solid var(--orange); outline-offset: 3px; }
+body.over-light .timeline { opacity: 0; pointer-events: none; }
+body.has-timeline .progress-line { display: none; }
+@media (max-width: 720px) {
+  .timeline { right: 0.8rem; height: 40vh; }
+  .tl-item { font-size: 0.52rem; letter-spacing: 0.22em; gap: 0.5rem; }
+}
+body.over-light .beat { opacity: 0 !important; }
+
+/* top-right quadrant variant: composition splits against the subject on the left/bottom */
+.beat.tr {
+  align-items: flex-end; justify-content: flex-start;
+  text-align: right;
+  padding: clamp(6rem, 14vh, 9rem) clamp(2rem, 6vw, 5rem) 0 50%;
+}
+.beat.tr .display { font-size: clamp(1.9rem, 5.5vw, 4.6rem); }
+.beat.tr .script  { font-size: clamp(2.2rem, 6.5vw, 5.4rem); margin-top: -0.3em; margin-right: -0.05em; }
+@media (max-width: 720px) {
+  .beat.tr { padding-left: 18%; padding-right: 1.2rem; }
+}
+
+/* contrast scrim behind chapter text over bright footage (accessibility note, spec §7) */
+.beat .scrim {
+  background: radial-gradient(closest-side, rgba(10,9,8,0.5), rgba(10,9,8,0));
+  padding: clamp(2rem, 6vw, 4rem) clamp(2.4rem, 8vw, 6rem);
+  border-radius: 50%;
+}
+
+/* ---------- content sections after the film ---------- */
+.after-film { position: relative; z-index: 30; background: var(--paper); }
+.section { padding: clamp(5rem, 12vh, 9rem) clamp(1.2rem, 6vw, 5rem); max-width: 1200px; margin: 0 auto; }
+.section-head { position: relative; margin-bottom: clamp(3rem, 8vh, 5rem); }
+.section-head .display { font-size: clamp(2.2rem, 6.5vw, 4.6rem); color: var(--black); }
+.section-head .script {
+  position: absolute; left: clamp(6rem, 22vw, 16rem); top: 58%;
+  transform: rotate(-4deg); font-size: clamp(2.6rem, 7.5vw, 5.6rem);
+}
+
+/* reveal on first view */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transition: none; opacity: 1; transform: none; }
+}
+
+/* ---------- trip rows ---------- */
+.trip {
+  display: grid; grid-template-columns: 4.5rem 1fr minmax(200px, 340px) 3rem;
+  align-items: center; gap: clamp(1rem, 3vw, 2.5rem);
+  padding: 2.2rem 0; border-top: 1px solid rgba(30,30,29,0.15);
+  text-decoration: none; color: var(--off-black); position: relative;
+}
+.trip:last-of-type { border-bottom: 1px solid rgba(30,30,29,0.15); }
+.trip .num {
+  font-family: "Archivo Black", sans-serif; font-size: 1.6rem;
+  -webkit-text-stroke: 1px var(--off-black); color: transparent;
+  transition: color .4s var(--ease), -webkit-text-stroke-color .4s var(--ease);
+}
+.trip .name {
+  font-family: "Archivo Black", sans-serif; text-transform: uppercase;
+  font-size: clamp(1.15rem, 3vw, 2rem); line-height: 1.05;
+  transition: transform .45s var(--ease);
+}
+.trip .meta { display: block; margin-top: 0.5rem; color: rgba(30,30,29,0.6); font-size: 0.66rem; }
+.trip .media {
+  aspect-ratio: 16/9; overflow: hidden; border-radius: 4px; background: var(--off-black);
+}
+.trip .media video, .trip .media img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transform: scale(1.02); transition: transform .8s var(--ease);
+}
+.trip .media img.kenburns { animation: kb 16s ease-in-out infinite alternate; }
+@keyframes kb { from { transform: scale(1.02) } to { transform: scale(1.12) translateX(-2%) } }
+@media (prefers-reduced-motion: reduce) { .trip .media img.kenburns { animation: none; } }
+.trip .arrow {
+  font-size: 1.4rem; opacity: 0; transform: translateX(-10px);
+  transition: opacity .4s var(--ease), transform .4s var(--ease); color: var(--orange);
+}
+.trip.active:hover .name, .trip.active:focus-visible .name { transform: translateX(14px); }
+.trip.active:hover .num,  .trip.active:focus-visible .num  { color: var(--orange); -webkit-text-stroke-color: var(--orange); }
+.trip.active:hover .arrow, .trip.active:focus-visible .arrow { opacity: 1; transform: none; }
+.trip.active:hover .media video { transform: scale(1.08); }
+.trip.active:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
+.trip.soon { opacity: 0.55; cursor: default; }
+.trip.soon .tag {
+  position: absolute; top: 1rem; right: 0;
+  color: var(--orange); font-weight: 400; font-size: 0.62rem;
+}
+
+/* ---------- closing / footer ---------- */
+.closing { text-align: center; }
+.closing .lockup .display { font-size: clamp(2rem, 6vw, 4.4rem); color: var(--black); }
+.closing .lockup .script { font-size: clamp(2.4rem, 7vw, 5.4rem); }
+.closing p.sub { margin-top: 1.8rem; color: rgba(30,30,29,0.7); }
+.closing .pill {
+  background: var(--off-black); color: var(--white); margin-top: 2.4rem;
+}
+.closing .pill:hover { background: var(--black); }
+footer {
+  padding: 2.5rem clamp(1.2rem, 4vw, 3rem); border-top: 1px solid rgba(30,30,29,0.12);
+  display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between;
+  color: rgba(30,30,29,0.55); font-size: 0.62rem;
+}
+footer a { color: inherit; }
+
+/* ---------- form (bali) ---------- */
+.plan { text-align: center; }
+.form-wrap { max-width: 30rem; margin: 0 auto; text-align: left; }
+.form-wrap .lead { text-align: center; margin-bottom: 3rem; color: rgba(30,30,29,0.7); }
+.field { margin-bottom: 2.2rem; }
+.field label { display: block; margin-bottom: 0.5rem; color: rgba(30,30,29,0.6); }
+.field input {
+  width: 100%; border: 0; border-bottom: 1px solid rgba(30,30,29,0.35);
+  background: transparent; padding: 0.55rem 0.1rem;
+  font-family: "Source Sans 3", sans-serif; font-size: 1.05rem; color: var(--black);
+  border-radius: 0; transition: border-color .3s var(--ease);
+}
+.field input:focus { outline: none; border-bottom-color: var(--orange); }
+.field input[aria-invalid="true"] { border-bottom-color: #C0392B; }
+.field .err { color: #C0392B; font-size: 0.72rem; margin-top: 0.4rem; display: none; }
+.field.invalid .err { display: block; }
+.form-actions { text-align: center; margin-top: 3rem; }
+.received { display: none; text-align: center; }
+.received .script { font-size: clamp(3rem, 9vw, 6rem); display: inline-block; }
+.received p { margin-top: 1.4rem; color: rgba(30,30,29,0.7); }
+form.sent { display: none; }
+form.sent + .received { display: block; }
+
+/* ---------- meeting / contact switch ---------- */
+.switch {
+  display: flex; justify-content: center; gap: 0;
+  margin-bottom: 3rem;
+  border: 1px solid rgba(30,30,29,0.25); border-radius: 999px;
+  padding: 3px; width: fit-content; margin-left: auto; margin-right: auto;
+}
+.switch-btn {
+  border: 0; background: transparent; cursor: pointer;
+  border-radius: 999px; padding: 0.7rem 1.6rem;
+  font-family: "Source Sans 3", sans-serif; font-weight: 400;
+  text-transform: uppercase; letter-spacing: 0.25em; font-size: 0.62rem;
+  color: rgba(30,30,29,0.6);
+  transition: background .35s var(--ease), color .35s var(--ease);
+}
+.switch-btn.active { background: var(--off-black); color: var(--white); }
+.switch-btn:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* meeting header: date + calendar icon */
+.meet-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; margin-bottom: 1.4rem; position: relative;
+}
+.meet-date { color: var(--black); font-weight: 400; font-size: 0.78rem; }
+.cal-btn {
+  border: 1px solid rgba(30,30,29,0.3); background: transparent; cursor: pointer;
+  border-radius: 50%; width: 2.6rem; height: 2.6rem;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--off-black);
+  transition: border-color .3s var(--ease), color .3s var(--ease);
+}
+.cal-btn:hover, .cal-btn:focus-visible { border-color: var(--orange); color: var(--orange); }
+.cal-btn:focus-visible { outline: none; }
+#meet-date {
+  position: absolute; right: 0; top: 0; width: 2.6rem; height: 2.6rem;
+  opacity: 0; pointer-events: none;
+}
+
+/* slot rows */
+.slot {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 1.15rem 0.1rem; border-top: 1px solid rgba(30,30,29,0.15);
+}
+.slot:last-of-type { border-bottom: 1px solid rgba(30,30,29,0.15); }
+.slot .time {
+  font-family: "Archivo Black", sans-serif; font-size: 1.05rem; color: var(--black);
+  min-width: 4.6rem;
+}
+.slot .info { flex: 1; color: rgba(30,30,29,0.6); font-size: 0.68rem; }
+.slot .add {
+  border: 1px solid rgba(30,30,29,0.3); background: transparent; cursor: pointer;
+  border-radius: 999px; padding: 0.55rem 1.2rem;
+  font-family: "Source Sans 3", sans-serif; font-weight: 400;
+  text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.56rem;
+  color: var(--off-black); white-space: nowrap;
+  transition: all .3s var(--ease);
+}
+.slot .add:hover, .slot .add:focus-visible { border-color: var(--orange); color: var(--orange); }
+.slot .add.added { background: var(--orange); border-color: var(--orange); color: var(--white); cursor: default; }
+.demo-note { margin-top: 1.6rem; text-align: center; color: rgba(30,30,29,0.4); font-size: 0.56rem; }
+
+@media (max-width: 720px) {
+  .slot { flex-wrap: wrap; }
+  .slot .info { flex-basis: 100%; order: 3; }
+}
+
+/* back link (bali) */
+.back {
+  position: fixed; bottom: 1.6rem; left: clamp(1.2rem, 4vw, 3rem); z-index: 60;
+  color: inherit; text-decoration: none;
+}
+.chrome-bottom { position: fixed; inset: auto 0 0 0; z-index: 55; pointer-events: none; }
+.chrome-bottom a { pointer-events: auto; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 720px) {
+  .trip { grid-template-columns: 2.8rem 1fr 2rem; }
+  .trip .media { grid-column: 1 / -1; order: -1; }
+  .lockup .script { transform: translate(-50%, -50%) rotate(-6deg); }
+  .section-head .script { left: 18%; }
+}
